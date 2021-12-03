@@ -1,0 +1,28 @@
+{
+    "name": "jecar/cms",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Jecar\\Cms\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Jecar",
+            "email": "carojefte@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "laravel/framework": "^7"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jecar\\Cms\\Providers\\ServiceProvider"
+            ]
+        }
+    }
+
+}
