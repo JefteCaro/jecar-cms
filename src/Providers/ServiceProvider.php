@@ -43,6 +43,6 @@ class ServiceProvider extends BaseProvider
 
     public function resourcePath(string $res)
     {
-        return __DIR__ . '../../resources/' . $res;
+        return __DIR__ . '../../../resources/' . $res;
     }
 }

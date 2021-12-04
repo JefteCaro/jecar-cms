@@ -2,59 +2,42 @@
 
 namespace Jecar\Cms\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Config;
 use Jecar\Core\Console\Commands\MigrationGenerator;
+use Jecar\Core\Console\Commands\PublishViews as CommandsPublishViews;
 
-class PublishViews extends MigrationGenerator
+class PublishViews extends CommandsPublishViews
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $name = 'jecar:views:cms';
+    protected $signature = 'jecar:views:cms';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publishes CMS migrations';
+    protected $description = 'Publishes CMS views';
 
-
-    private $files;
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
-        $this->files = new Filesystem;
-        $this->config = Config::get('jecar', require($this->resourcePath('config/jecar.php')));
-    }
-
-    /**
-     * Execute the console command.
-     *
-     * @return int
-     */
-    public function handle()
-    {
-        dd($this->argument('name'));
     }
 
     public function publish()
     {
-        $this->publishPage();
+        $this->buildContent($this->outputStub(), 'views/' . $this->outputStub());
     }
 
-    public function publishPage()
+    public function outputStub()
     {
+        return 'cms.blade.php';
+    }
 
+    public function getStub(string $path)
+    {
+        return $this->files->get(__DIR__ . '../../../resources/' .$path);
     }
 }
