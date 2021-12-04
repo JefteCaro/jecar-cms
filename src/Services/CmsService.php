@@ -19,9 +19,15 @@ class CmsService
     {
         Route::group(['prefix' => $this->config['app']['path']], function() {
 
-            Route::get('/', [CmsController::class, 'index']);
+            Route::get('/', [CmsController::class, 'index'])->name('cms');
 
-            Route::get('/{object}', [CmsController::class, 'index']);
+            Route::post('/', [CmsController::class, 'store'])->name('cms.create');
+
+            Route::get('/{object}', [CmsController::class, 'show'])->name('cms.show');
+
+            Route::put('/{object}', [CmsController::class, 'update'])->name('cms.update');
+
+            Route::delete('/{object}', [CmsController::class, 'destroy'])->name('cms.delete');
 
         });
     }

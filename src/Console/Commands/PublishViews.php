@@ -5,25 +5,37 @@ namespace Jecar\Cms\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
-use Jecar\Core\Console\Commands\MigrationGenerator;
 
-class PublishMigrations extends MigrationGenerator
+class PublishViews extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'jecar:migrations:cms';
+    protected $name = 'jecar:views:cms';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Publishes CMS migrations description';
+    protected $description = 'Publishes CMS migrations';
+
+
+    private $files;
+
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->files = new Filesystem;
+        $this->config = Config::get('jecar', require($this->resourcePath('config/jecar.php')));
+    }
 
     /**
      * Execute the console command.
@@ -32,8 +44,7 @@ class PublishMigrations extends MigrationGenerator
      */
     public function handle()
     {
-        $this->info('Publishing CMS Migrations');
-        $this->publish();
+        dd($this->argument('name'));
     }
 
     public function publish()
