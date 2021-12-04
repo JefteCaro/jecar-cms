@@ -10,6 +10,7 @@ class Page extends Model
 
     protected $fillable = [
         'name',
+        'path',
         'meta_title',
         'meta_description',
         'meta_keywords',

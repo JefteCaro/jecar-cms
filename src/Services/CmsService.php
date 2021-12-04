@@ -5,6 +5,7 @@ namespace Jecar\Cms\Services;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Jecar\Cms\Controllers\CmsController;
+use Jecar\Cms\Models\Page;
 
 class CmsService
 {
@@ -45,14 +46,25 @@ class CmsService
 
     public function publicRoutes()
     {
-        Route::get('/{group}/{path}', function() {
-            return 'public';
-        });
+        Route::get('/{a}/{b}/{c}', [CmsController::class, 'content']);
 
-        Route::get('/{path}', function() {
-            return 'public';
-        });
+        Route::get('/{a}/{b}', [CmsController::class, 'content']);
 
+        Route::get('/{a}', [CmsController::class, 'content']);
+
+        Route::get('/', [CmsController::class, 'content']);
+
+    }
+
+    public function renderPage($path)
+    {
+        if(!str_starts_with($path, '/')) {
+            $path = '/' . $path;
+        }
+
+        $page = Page::wherePath($path)->firstOrFail();
+
+        return $page->render();
     }
 
     private function resourcePath(string $res)

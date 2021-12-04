@@ -1,6 +1,6 @@
 @extends('jecar::app')
 
 @section('content')
-
-<script src="{{asset('js/jecar.js')}}"></script>
+<div id="jecar-cms" data-prefix="{{$prefix}}"></div>
+<script src="{{asset('js/jecar-cms.js')}}"></script>
 @endsection

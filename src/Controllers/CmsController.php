@@ -4,6 +4,8 @@ namespace Jecar\Cms\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Jecar\Cms\Facades\Cms;
+use Jecar\Cms\Models\Page;
 
 class CmsController extends BaseController
 {
@@ -19,7 +21,7 @@ class CmsController extends BaseController
 
         }
 
-        return view('jecar::cms');
+        return view('jecar::cms', ['prefix' => $request->route()->getPrefix()]);
     }
 
     /**
@@ -42,7 +44,7 @@ class CmsController extends BaseController
      */
     public function show(Request $request, $object)
     {
-        return view('jecar::cms');
+        return view('jecar::cms', ['prefix' => $request->route()->getPrefix()]);
     }
 
     /**
@@ -67,5 +69,10 @@ class CmsController extends BaseController
     public function destroy(Request $request, $object)
     {
         //
+    }
+
+    public function content(Request $request)
+    {
+        return Cms::renderPage($request->path());
     }
 }
