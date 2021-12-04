@@ -5,8 +5,9 @@ namespace Jecar\Cms\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Config;
+use Jecar\Core\Console\Commands\MigrationGenerator;
 
-class PublishViews extends Command
+class PublishViews extends MigrationGenerator
 {
     /**
      * The name and signature of the console command.
@@ -54,7 +55,6 @@ class PublishViews extends Command
 
     public function publishPage()
     {
-        $this->publishing('page');
-        $this->buildContent('page', 'migrations/page.stub');
+
     }
 }
