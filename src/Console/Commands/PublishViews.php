@@ -38,6 +38,6 @@ class PublishViews extends CommandsPublishViews
 
     public function getStub(string $path)
     {
-        return $this->files->get(__DIR__ . '../../../resources/' .$path);
+        return $this->files->get(__DIR__ . '../../../../resources/' .$path);
     }
 }

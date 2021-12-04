@@ -19,11 +19,23 @@ class ServiceProvider extends BaseProvider
     {
         $this->app->alias(CmsService::class, 'jecar-cms');
 
+        $this->loadViewsFrom(
+            $this->viewGroups(), 'jecar'
+        );
+
         $this->commands([
             PublishMigrations::class,
             PublishViews::class,
         ]);
 
+    }
+
+    public function viewGroups()
+    {
+        if(file_exists(resource_path('views/vendor/cms/cms.blade.php'))) {
+            return resource_path('views/vendor/cms');
+        }
+        return  $this->resourcePath('views');
     }
 
     /**

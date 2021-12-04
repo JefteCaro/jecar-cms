@@ -19,7 +19,7 @@ class CmsController extends BaseController
 
         }
 
-        return view('vendor.jecar.cms');
+        return view('jecar::cms');
     }
 
     /**
@@ -42,7 +42,7 @@ class CmsController extends BaseController
      */
     public function show(Request $request, $object)
     {
-        return view('vendor.jecar.cms');
+        return view('jecar::cms');
     }
 
     /**
