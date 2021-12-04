@@ -4,6 +4,7 @@ namespace Jecar\Cms\Services;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
+use Jecar\Cms\Controllers\CmsController;
 
 class CmsService
 {
@@ -18,9 +19,9 @@ class CmsService
     {
         Route::group(['prefix' => $this->config['app']['path']], function() {
 
-            Route::get('/test', function() {
-                return 'test';
-            });
+            Route::get('/', [CmsController::class, 'index']);
+
+            Route::get('/{object}', [CmsController::class, 'index']);
 
         });
     }
