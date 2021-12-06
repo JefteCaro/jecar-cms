@@ -5,20 +5,23 @@ namespace Jecar\Cms\Services;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Jecar\Cms\Controllers\CmsController;
+use Jecar\Cms\Controllers\PageController;
+use Jecar\Cms\Controllers\TemplateController;
 use Jecar\Cms\Models\Page;
+use Jecar\Core\Services\JecarService;
 
-class CmsService
+class CmsService extends JecarService
 {
     private $config;
 
     public function __construct()
     {
-        $this->config = Config::get('jecar-cms', require($this->resourcePath('config/jecar-cms.php')));
+        $this->config = Config::get('jecar', require($this->resourcePath('config/jecar.php')));
     }
 
     public function buildRoutes()
     {
-        Route::group(['prefix' => $this->config['app']['path']], function() {
+        Route::group(['prefix' => $this->config['paths']['cms']], function() {
 
             Route::get('/', [CmsController::class, 'index'])->name('cms');
 
@@ -30,13 +33,30 @@ class CmsService
 
             Route::delete('/{object}', [CmsController::class, 'destroy'])->name('cms.delete');
 
+            Route::group(['prefix' => 'pages', 'as' => '.pages'], function() {
+                Route::get('/', [PageController::class, 'index'])->name('');
+                Route::post('/', [PageController::class, 'store'])->name('.create');
+                Route::get('/{page}', [PageController::class, 'show'])->name('.show');
+                Route::put('/{page}', [PageController::class, 'update'])->name('.update');
+                Route::delete('/{page}', [PageController::class, 'delete'])->name('.delete');
+            });
+
+            Route::group(['prefix' => 'templates', 'as' => '.templates'], function() {
+                Route::get('/', [TemplateController::class, 'index'])->name('');
+                Route::post('/', [TemplateController::class, 'store'])->name('.create');
+                Route::get('/{template}', [TemplateController::class, 'show'])->name('.show');
+                Route::put('/{template}', [TemplateController::class, 'update'])->name('.update');
+                Route::delete('/{template}', [TemplateController::class, 'delete'])->name('.delete');
+            });
+
+
         });
     }
 
     public function adminRoutes()
     {
-        if(isset($this->config['app']['subdomain'])) {
-            Route::domain($this->config['app']['subdomain'] . '.' . config('app.url'))->group(function() {
+        if(isset($this->config['subdomains']['cms']) && strlen($this->config['subdomains']['cms']) > 0) {
+            Route::domain($this->config['subdomains']['cms'] . '.' . config('app.url'))->group(function() {
                 $this->buildRoutes();
             });
         } else {
@@ -65,10 +85,5 @@ class CmsService
         $page = Page::wherePath($path)->firstOrFail();
 
         return $page->render();
-    }
-
-    private function resourcePath(string $res)
-    {
-        return __DIR__ . '../../../resources/' . $res;
     }
 }
