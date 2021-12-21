@@ -5,6 +5,7 @@ namespace Jecar\Cms\Services;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
 use Jecar\Cms\Controllers\CmsController;
+use Jecar\Cms\Controllers\MediaController;
 use Jecar\Cms\Controllers\PageController;
 use Jecar\Cms\Controllers\TemplateController;
 use Jecar\Cms\Models\Page;
@@ -12,11 +13,10 @@ use Jecar\Core\Services\JecarService;
 
 class CmsService extends JecarService
 {
-    private $config;
 
     public function __construct()
     {
-        $this->config = Config::get('jecar', require($this->resourcePath('config/jecar.php')));
+        parent::__construct();
     }
 
     public function buildRoutes()
@@ -25,20 +25,20 @@ class CmsService extends JecarService
 
             Route::get('/', [CmsController::class, 'index'])->name('cms');
 
-            Route::post('/', [CmsController::class, 'store'])->name('cms.create');
-
-            Route::get('/{object}', [CmsController::class, 'show'])->name('cms.show');
-
-            Route::put('/{object}', [CmsController::class, 'update'])->name('cms.update');
-
-            Route::delete('/{object}', [CmsController::class, 'destroy'])->name('cms.delete');
-
-            Route::group(['prefix' => 'pages', 'as' => '.pages'], function() {
+            Route::group(['prefix' => 'pages', 'as' => 'pages'], function() {
                 Route::get('/', [PageController::class, 'index'])->name('');
                 Route::post('/', [PageController::class, 'store'])->name('.create');
                 Route::get('/{page}', [PageController::class, 'show'])->name('.show');
                 Route::put('/{page}', [PageController::class, 'update'])->name('.update');
                 Route::delete('/{page}', [PageController::class, 'delete'])->name('.delete');
+            });
+
+            Route::group(['prefix' => 'media', 'as' => 'media'], function() {
+                Route::get('/', [MediaController::class, 'index'])->name('');
+                Route::post('/', [MediaController::class, 'store'])->name('.create');
+                Route::get('/{media}', [MediaController::class, 'show'])->name('.show');
+                Route::put('/{media}', [MediaController::class, 'update'])->name('.update');
+                Route::delete('/{media}', [MediaController::class, 'delete'])->name('.delete');
             });
 
             Route::group(['prefix' => 'templates', 'as' => '.templates'], function() {

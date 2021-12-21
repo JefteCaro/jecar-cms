@@ -3,13 +3,12 @@
 namespace Jecar\Cms\Models;
 
 use Jecar\Core\Models\Model;
-use Illuminate\Support\Str;
 
 class Page extends Model
 {
-
     protected $fillable = [
         'name',
+        'title',
         'path',
         'meta_title',
         'meta_description',
@@ -21,5 +20,19 @@ class Page extends Model
     protected $casts = [
         'published' => 'boolean',
     ];
+
+    public static function booted()
+    {
+        parent::booted();
+
+        static::creating(function($data) {
+            if(!str_starts_with($data->path, '/')) {
+                $data->path = sprintf("/%s", $data->path);
+            }
+            if($data->meta_title == null) {
+                $data->meta_title = $data->title;
+            }
+        });
+    }
 
 }

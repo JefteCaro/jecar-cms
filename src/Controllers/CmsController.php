@@ -21,7 +21,7 @@ class CmsController extends BaseController
 
         }
 
-        return view('jecar::cms', ['prefix' => $request->route()->getPrefix()]);
+        return view('jecar::cms', ['prefix' => app('jecar')->pathPrefix('cms')]);
     }
 
     /**
@@ -44,7 +44,7 @@ class CmsController extends BaseController
      */
     public function show(Request $request, $object)
     {
-        return view('jecar::cms', ['prefix' => $request->route()->getPrefix()]);
+        return view('jecar::cms', ['prefix' => app('jecar')->pathPrefix('cms')]);
     }
 
     /**
