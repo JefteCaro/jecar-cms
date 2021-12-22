@@ -13,12 +13,6 @@ use Jecar\Core\Services\JecarService;
 
 class CmsService extends JecarService
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function buildRoutes()
     {
         Route::group(['prefix' => $this->config['paths']['cms']], function() {
